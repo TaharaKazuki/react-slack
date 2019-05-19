@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import firebase from '../../components/firebase'
 import { Grid, Form, Segment, Button, Header, Message, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import firebase from '../../components/firebase'
 
 export default class Register extends Component {
 
@@ -9,8 +9,44 @@ export default class Register extends Component {
     username: '',
     email: '',
     password: '',
-    passwordConfirmation: ''
+    passwordConfirmation: '',
+    errors: []
   }
+
+  isFormValid = () => {
+    let errors = []
+    let error
+
+    if (this.isFormEmpty(this.state)) {
+      error = { message: 'Fill in all fields'}
+      this.setState({ errors: errors.concat(error)})
+    } else if (!this.isPasswordValid(this.state)) {
+      error = { message: 'Password is isvalid'}
+      this.setState({ errors: errors.concat(error)})
+    } else {
+      return true
+    }
+  }
+
+  isFormEmpty = ({ username, email, password, passwordConfirmation }) => {
+    console.info(username.length)
+    console.info(email.length)
+    console.info(password.length)
+    console.info(passwordConfirmation.length)
+    return !username.length || !email.length || !password.length || !passwordConfirmation.length
+  }
+
+  isPasswordValid = ({ password, passwordConfirmation }) => {
+    if (password.length < 6 || passwordConfirmation.length < 6) {
+      return false
+    }
+    if (password !== passwordConfirmation) {
+      return false
+    }
+    return true
+  }
+
+  displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p>)
 
   handleChange = e => {
     this.setState({
@@ -19,16 +55,18 @@ export default class Register extends Component {
   }
 
   handleSubmit = e => {
-    e.preventDefault()
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(createUser => {
-        console.info(createUser)
-      })
-      .catch(err => {
-        console.info(err)
-      })
+    if (this.isFormValid()) {
+      e.preventDefault()
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(createUser => {
+          console.info(createUser)
+        })
+        .catch(err => {
+          console.info(err)
+        })
+    }
   }
 
   render() {
@@ -36,7 +74,8 @@ export default class Register extends Component {
       username,
       email,
       password,
-      passwordConfirmation
+      passwordConfirmation,
+      errors
     } = this.state
 
 
@@ -85,6 +124,12 @@ export default class Register extends Component {
               <Button color="orange" fluid size="large">Submit</Button>
             </Segment>
           </Form>
+          {errors.length > 0 && (
+            <Message error>
+              <h3>Error</h3>
+              {this.displayErrors(errors)}
+            </Message>
+          )}
           <Message>
             Already a user ?<Link to="/login">Login</Link>
           </Message>
