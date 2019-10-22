@@ -3,9 +3,16 @@ import { Grid, Form, Segment, Button, Header, Message, Icon } from 'semantic-ui-
 import { Link } from 'react-router-dom'
 
 class Register extends Component {
-  state = {}
+  state = {
+    username: '',
+    email: '',
+    password: '',
+    passwordConfirmation: ''
+  }
 
-  handleChange = () => {}
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
   render () {
     return (
@@ -17,15 +24,6 @@ class Register extends Component {
           </Header>
           <Form size='large'>
             <Segment stacked>
-              <Form.Input
-                fluid
-                name='username'
-                icon='user'
-                iconPosition='left'
-                placeholder='Username'
-                onChange={this.handleChange}
-                type='text'
-              />
 
               <Form.Input
                 fluid
@@ -39,7 +37,7 @@ class Register extends Component {
 
               <Form.Input
                 fluid
-                name='emali'
+                name='email'
                 icon='mail'
                 iconPosition='left'
                 placeholder='Email Address'
