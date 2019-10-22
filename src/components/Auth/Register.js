@@ -20,11 +20,11 @@ class Register extends Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .them(createUser => {
-        console.info('createUser', createUser)
+      .then(createdUser => {
+        console.info('createdUser', createdUser)
       })
       .catch(error => {
-        console.error('error', error)
+        console.info('error',error)
       })
   }
 
