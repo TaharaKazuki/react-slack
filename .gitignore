@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # firebase
-/src/components/firebase.js
+/src/firebase.js
 
 # .idea
 .idea
