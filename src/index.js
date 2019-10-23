@@ -9,6 +9,11 @@ import 'semantic-ui-css/semantic.min.css'
 
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom'
 
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+
+
 class Root extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
