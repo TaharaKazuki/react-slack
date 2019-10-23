@@ -26,6 +26,7 @@ class Login extends Component {
         .signInWithEmailAndPassword(this.state.email, this.state.password)
         .then(signInUser => {
           console.info('signInUser', signInUser)
+
         })
         .catch(error => {
           console.info('error',error)
@@ -102,7 +103,7 @@ class Login extends Component {
             </Message>
           )}
           <Message>
-            Already a user? <Link to='/register'>Login</Link>
+            Already a user? <Link to='/register'>Register</Link>
           </Message>
         </Grid.Column>
       </Grid>
